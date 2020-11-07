@@ -17,7 +17,6 @@ module.exports = {
         let result = {};
         let status = 201;
         if (!err) {
-          //   console.log(req);
           const { name, password } = req.body;
           const user = new User({ name, password });
           user.save((err, user) => {
@@ -63,7 +62,6 @@ module.exports = {
 
                   result.token = token;
                   result.status = status;
-                  result.result = user;
                 } else {
                   status = 401;
                   result.status = status;
