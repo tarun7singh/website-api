@@ -28,13 +28,17 @@ jobs:
         KEY: ${{ secrets.DO_SSH_KEY }}
       with:
         source: "."
-        target: "/opt/test"
+        target: "/root/api"
 
-    - name: Executing remote  command
+    - name: Executing remote command
       uses: appleboy/ssh-action@master
       with:
         HOST: ${{ secrets.DO_HOST }}
         USERNAME: ${{ secrets.DO_USERNAME }}
         PORT: ${{ secrets.DO_PORT }}
         KEY: ${{ secrets.DO_SSH_KEY }}
-        script: cat /opt/test/README.md
+        script_stop: true
+        script: |
+          cd /root/api
+          npm install
+          pm2 reload api
