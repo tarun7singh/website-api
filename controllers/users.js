@@ -90,4 +90,26 @@ module.exports = {
       }
     });
   },
+  validUsername: (req, res) => {
+    const { name } = req.body;
+    mongoose.connect(connUri, { useNewUrlParser: true }, (err) => {
+      let result = {};
+      let status = 200;
+      if (!err) {
+        User.findOne({ name }, (err, user) => {
+          if (err) {
+            res.status(500);
+            return;
+          }
+          if (user === null) {
+            res.json({ valid: true });
+          } else {
+            res.json({ valid: false });
+          }
+        });
+      } else {
+        res.status(500);
+      }
+    });
+  },
 };
