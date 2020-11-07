@@ -3,7 +3,7 @@ const express = require('express')
 const app = express();
 
 app.get('/', (req, res) => {
-    return res.json({ Status: "Ok" });
+    return res.json({ Status: "Ok", "CI-CD": true  });
 });
 
 app.listen(process.env.PORT || 5000, () =>
