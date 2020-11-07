@@ -37,4 +37,4 @@ jobs:
         USERNAME: ${{ secrets.DO_USERNAME }}
         PORT: ${{ secrets.DO_PORT }}
         KEY: ${{ secrets.DO_SSH_KEY }}
-        script: cat /opt/app/README.md
+        script: cat /opt/test/README.md
