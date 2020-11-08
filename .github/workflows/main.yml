@@ -31,4 +31,4 @@ jobs:
         script: |
           cd /root/api
           npm install
-          pm2 reload api
+          pm2 reload api --update-env
