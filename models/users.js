@@ -1,38 +1,43 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-// schema maps to a collection
 const Schema = mongoose.Schema;
-
 const userSchema = new Schema({
   name: {
-    type: "String",
+    type: String,
     required: true,
     trim: true,
     unique: true,
   },
   password: {
-    type: "String",
+    type: String,
     required: true,
     trim: true,
   },
+  active: {
+    type: Boolean,
+    default: false,
+  },
+  notificationToken: {
+    type: String,
+    default: "",
+  },
 });
 
-userSchema.pre("save", function (next) {
+userSchema.pre("save", async function (next) {
   const user = this;
   if (!user.isModified || !user.isNew) {
-    // don't rehash if it's an old user
     next();
   } else {
-    bcrypt.hash(user.password, 10, function (err, hash) {
-      if (err) {
-        console.log("Error hashing password for user", user.name);
-        next(err);
-      } else {
-        user.password = hash;
-        next();
-      }
-    });
+    try {
+      const salt = await bcrypt.genSalt();
+      const hash = await bcrypt.hash(user.password, salt);
+      user.password = hash;
+      next();
+    } catch {
+      console.log("Error hashing password for user", user.name);
+      next(err);
+    }
   }
 });
 
