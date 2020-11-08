@@ -15,12 +15,14 @@
     "nodemon": "^2.0.6"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "expo-server-sdk": "^3.6.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.13",
-    "cross-env": "^7.0.2"
+    "mongoose": "^5.10.13"
   }
 }
