@@ -4,6 +4,6 @@ const validateToken = require("../utils").validateToken;
 module.exports = (router) => {
   router
     .route("/notification/update-token")
-    .get(validateToken, controller.updateToken);
+    .post(validateToken, controller.updateToken);
   router.route("/notification/send").get(controller.sendNotification);
 };

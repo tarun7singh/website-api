@@ -26,12 +26,6 @@ module.exports = {
   sendNotification: async (req, res) => {
     try {
       const { name, title, body, token } = req.body;
-      if (token !== process.env.NOTIF_AUTH) {
-        res
-          .status(422)
-          .send({ status: 422, error: "token param is required." });
-        return;
-      }
       await dbConnect();
       let { notificationToken = "" } = await User.findOne({ name }).exec();
       if (!Expo.isExpoPushToken(notificationToken)) {

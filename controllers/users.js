@@ -39,6 +39,7 @@ module.exports = {
         result.status = status;
         result.error = "Authentication error";
         res.status(status).send(result);
+        return;
       }
       bcrypt.compare(password, user.password).then((match) => {
         if (match) {
@@ -58,6 +59,7 @@ module.exports = {
           result.error = "Authentication error";
         }
         res.status(status).send(result);
+        return;
       });
     } catch (err) {
       res.status(500).send({ status: 500, error: err });
