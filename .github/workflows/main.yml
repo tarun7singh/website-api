@@ -1,0 +1,34 @@
+name: Build And Deploy
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Copy file via scp
+      uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.DO_HOST }}
+        USERNAME: ${{ secrets.DO_USERNAME }}
+        PORT: ${{ secrets.DO_PORT }}
+        KEY: ${{ secrets.DO_SSH_KEY }}
+      with:
+        source: "."
+        target: "/root/api"
+    - name: Executing remote command
+      uses: appleboy/ssh-action@master
+      with:
+        HOST: ${{ secrets.DO_HOST }}
+        USERNAME: ${{ secrets.DO_USERNAME }}
+        PORT: ${{ secrets.DO_PORT }}
+        KEY: ${{ secrets.DO_SSH_KEY }}
+        script_stop: true
+        script: |
+          cd /root/api
+          npm install
+          pm2 reload api --update-env
