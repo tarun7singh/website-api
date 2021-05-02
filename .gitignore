@@ -1,4 +1,5 @@
 .env
 build/
 node_modules/
-src/images/*.jpg
+images/*
+approved/*
