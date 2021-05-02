@@ -19,7 +19,7 @@ jobs:
         KEY: ${{ secrets.ORACLE_VM_SSH_KEY }}
       with:
         source: "."
-        target: "/home/opc/api"
+        target: "/home/ubuntu/api"
     - name: Executing remote command
       uses: appleboy/ssh-action@master
       with:
@@ -29,6 +29,7 @@ jobs:
         KEY: ${{ secrets.ORACLE_VM_SSH_KEY }}
         script_stop: true
         script: |
-          cd /home/opc/api
+          cd /home/ubuntu/api
           npm ci
+          npm run build
           pm2 reload api --update-env
