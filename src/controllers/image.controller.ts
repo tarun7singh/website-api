@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { prepareImage } from "../service/image.service";
+import appRoot from 'app-root-path';
 
 export async function image(req: Request, res: Response) {
   try {
     await prepareImage("main");
-    res.sendFile("main.jpg", { root: `${process.cwd()}/src/images` });
+    res.sendFile("main.jpg", { root: `${appRoot}/images` });
   } catch (error) {
     res.status(500).json({
       status: "ok",

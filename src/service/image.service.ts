@@ -4,8 +4,9 @@ import Jimp from "jimp";
 import wrap from "word-wrap";
 import { JSDOM } from "jsdom";
 import { sentenceCase } from "sentence-case";
+import appRoot from 'app-root-path';
 
-const dir = process.cwd();
+const dir = appRoot;
 
 const fetchBg = async (name: string) => {
   // url = "https://source.unsplash.com/collection/" + collection_id + "/1080x1080"
@@ -14,7 +15,7 @@ const fetchBg = async (name: string) => {
   // url = "https://source.unsplash.com/collection/881815/1080x1080"
   // url = "https://source.unsplash.com/collection/482366/1080x1080"
   // url = "https://images.unsplash.com/photo-1433086994863-5f3136c18a58?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&h=1080&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=8a754b293c59d35bf4309cd87d8fc601"
-  const writer = fs.createWriteStream(`${dir}/src/images/${name}.jpg`);
+  const writer = fs.createWriteStream(`${dir}/images/${name}.jpg`);
   const resp = await axios({
     method: "get",
     url,
@@ -78,10 +79,10 @@ const getQuote = async (): Promise<{ quote: string; author: string }> => {
 };
 
 const filterImage = async (name: string) => {
-  const image = await Jimp.read(`${dir}/src/images/${name}.jpg`);
+  const image = await Jimp.read(`${dir}/images/${name}.jpg`);
   await image
     .color([{ apply: "shade", params: [25] }])
-    .writeAsync(`${dir}/src/images/${name}.jpg`);
+    .writeAsync(`${dir}/images/${name}.jpg`);
 };
 
 const writeQuote = async (
@@ -89,7 +90,7 @@ const writeQuote = async (
   data: { quote: string; author: string }
 ) => {
   let { quote, author } = data;
-  const quoteFont = await Jimp.loadFont(`${dir}/src/fonts/kaushan/kaushan.ttf.fnt`);
+  const quoteFont = await Jimp.loadFont(`${dir}/fonts/kaushan/kaushan.ttf.fnt`);
 
   let count = 1;
   let q_width = Jimp.measureText(quoteFont, quote); // width of text
@@ -120,7 +121,7 @@ const writeQuote = async (
   const quoteHeight = 100 * lines.length;
   let y = (imageHeight - quoteHeight) / 2 - 100;
   for (const quotePart of lines) {
-    const image = await Jimp.read(`${dir}/src/images/${fileName}.jpg`);
+    const image = await Jimp.read(`${dir}/images/${fileName}.jpg`);
     await image
       .print(
         quoteFont,
@@ -129,12 +130,12 @@ const writeQuote = async (
         { text: quotePart, alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER },
         1000
       )
-      .writeAsync(`${dir}/src/images/${fileName}.jpg`);
+      .writeAsync(`${dir}/images/${fileName}.jpg`);
     y += 100;
   }
   y += 50;
-  const authorFont = await Jimp.loadFont(`${dir}/src/fonts/pacifico/pacifico.ttf.fnt`);
-  const image = await Jimp.read(`${dir}/src/images/${fileName}.jpg`);
+  const authorFont = await Jimp.loadFont(`${dir}/fonts/pacifico/pacifico.ttf.fnt`);
+  const image = await Jimp.read(`${dir}/images/${fileName}.jpg`);
   await image
     .print(
       authorFont,
@@ -143,7 +144,7 @@ const writeQuote = async (
       { text: `- ${author}`, alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT },
       1000
     )
-    .writeAsync(`${dir}/src/images/${fileName}.jpg`);
+    .writeAsync(`${dir}/images/${fileName}.jpg`);
 };
 
 const formatAuthor = (author: string) => {
