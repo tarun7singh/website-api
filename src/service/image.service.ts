@@ -86,7 +86,7 @@ const writeQuote = async (
   data: { quote: string; author: string }
 ) => {
   let { quote, author } = data;
-  const quoteFont = await Jimp.loadFont("src/fonts/kaushan/kaushan.ttf.fnt");
+  const quoteFont = await Jimp.loadFont("/home/ubuntu/api/src/fonts/kaushan/kaushan.ttf.fnt");
 
   let count = 1;
   let q_width = Jimp.measureText(quoteFont, quote); // width of text
@@ -130,7 +130,7 @@ const writeQuote = async (
     y += 100;
   }
   y += 50;
-  const authorFont = await Jimp.loadFont("src/fonts/pacifico/pacifico.ttf.fnt");
+  const authorFont = await Jimp.loadFont("/home/ubuntu/api/src/fonts/pacifico/pacifico.ttf.fnt");
   const image = await Jimp.read(`/home/ubuntu/api/src/images/${fileName}.jpg`);
   await image
     .print(
