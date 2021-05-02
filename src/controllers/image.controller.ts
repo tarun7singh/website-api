@@ -4,7 +4,7 @@ import { prepareImage } from "../service/image.service";
 export async function image(req: Request, res: Response) {
   try {
     await prepareImage("main");
-    res.sendFile("main.jpg", { root: "src/images" });
+    res.sendFile("main.jpg", { root: "/home/ubuntu/api/src/images" });
   } catch (error) {
     res.status(500).json({
       status: "ok",
