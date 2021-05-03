@@ -29,8 +29,15 @@ export async function prepare(req: Request, res: Response) {
 
 export async function slackHandler(req: Request, res: Response) {
   try {
-    console.log(req.query);
-    console.log(req.body);
+    const payload = JSON.parse(req.body.payload);
+    const [ action, name ] = payload.actions[0].value.split("-");
+    if (action === "approve"){
+      console.log("approving");
+      console.log(`${name}.jpg`);
+    } else {
+      console.log("denying");
+      console.log(`${name}.jpg`);
+    }
     res.status(200).json({ success: true });
   } catch (error) {
     res.status(500).json({
