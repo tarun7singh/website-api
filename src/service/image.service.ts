@@ -5,7 +5,7 @@ import wrap from "word-wrap";
 import { JSDOM } from "jsdom";
 import { sentenceCase } from "sentence-case";
 import appRoot from 'app-root-path';
-
+import {publishMessage} from "./slack.service";
 const dir = appRoot;
 
 const fetchBg = async (name: string) => {
@@ -159,4 +159,19 @@ export const prepareImage = async (name: string) => {
   await fetchBg(name);
   const [filter, { quote, author }] = await Promise.all([filterImage(name), getQuote()])
   await writeQuote(name, { quote, author });
+};
+
+export const prepareImages = async (count: number) => {
+  const queue = [];
+  for (let i = 0 ; i < count; i++) {
+    queue.push(prepareImage(i.toString()));
+  }
+  const queueResult = await Promise.all(queue);
+  
+  const messageQueue = [];
+  for (let i = 0 ; i < count; i++) {
+    messageQueue.push(publishMessage(i.toString()));
+  }
+  const messageQueueResult = await Promise.all(messageQueue);
+  return {queueResult, messageQueueResult};
 };

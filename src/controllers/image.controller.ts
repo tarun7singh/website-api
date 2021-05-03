@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { prepareImage } from "../service/image.service";
+import { prepareImage, prepareImages } from "../service/image.service";
 import appRoot from "app-root-path";
 import fs from "fs";
 
@@ -7,6 +7,31 @@ export async function image(req: Request, res: Response) {
   try {
     await prepareImage("main");
     res.sendFile("main.jpg", { root: `${appRoot}/images` });
+  } catch (error) {
+    res.status(500).json({
+      status: "ok",
+      data: { success: false, error: error.toString() },
+    });
+  }
+}
+
+export async function prepare(req: Request, res: Response) {
+  try {
+    await prepareImages(5);
+    res.status(200).json({ success: true });
+  } catch (error) {
+    res.status(500).json({
+      status: "ok",
+      data: { success: false, error: error.toString() },
+    });
+  }
+}
+
+export async function slackHandler(req: Request, res: Response) {
+  try {
+    console.log(req.query);
+    console.log(req.body);
+    res.status(200).json({ success: true });
   } catch (error) {
     res.status(500).json({
       status: "ok",
@@ -49,17 +74,6 @@ export async function deleteStoredImage(req: Request, res: Response) {
       if (err) throw err;
       res.status(200).json({ success: true });
     });
-  } catch (error) {
-    res.status(500).json({
-      status: "ok",
-      data: { success: false, error: error.toString() },
-    });
-  }
-}
-
-export async function prepare(req: Request, res: Response) {
-  try {
-    res.status(200).json({ status: "ok" });
   } catch (error) {
     res.status(500).json({
       status: "ok",
