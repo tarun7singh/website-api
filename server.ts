@@ -26,9 +26,6 @@ app.get("/image-generator/image/:name", imageController.getStoredImage);
 
 app.post("/image-generator/prepare", imageController.prepare);
 
-// app.get("/image-generator/approve/:name", imageController.approveStoredImage);
-// app.get("/image-generator/deny/:name", imageController.deleteStoredImage);
-
 app.listen(5000, () =>
   console.log(`Server started on : http://localhost:${port}`)
 );

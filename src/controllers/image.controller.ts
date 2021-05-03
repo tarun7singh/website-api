@@ -30,13 +30,18 @@ export async function prepare(req: Request, res: Response) {
 export async function slackHandler(req: Request, res: Response) {
   try {
     const payload = JSON.parse(req.body.payload);
-    const [ action, name ] = payload.actions[0].value.split("-");
-    if (action === "approve"){
-      console.log("approving");
-      console.log(`${name}.jpg`);
+    const [action, name] = payload.actions[0].value.split("-");
+    if (action === "approve") {
+      const oldPath = `${appRoot}/images/${name}.jpg`;
+      const newPath = `${appRoot}/approved/${name}.jpg`;
+      fs.rename(oldPath, newPath, function (err) {
+        if (err) throw err;
+      });
     } else {
-      console.log("denying");
-      console.log(`${name}.jpg`);
+      const path = `${appRoot}/images/${name}.jpg`;
+      fs.unlink(path, function (err) {
+        if (err) throw err;
+      });
     }
     res.status(200).json({ success: true });
   } catch (error) {
@@ -50,37 +55,6 @@ export async function slackHandler(req: Request, res: Response) {
 export async function getStoredImage(req: Request, res: Response) {
   try {
     res.sendFile(`${req.params.name}.jpg`, { root: `${appRoot}/images` });
-  } catch (error) {
-    res.status(500).json({
-      status: "ok",
-      data: { success: false, error: error.toString() },
-    });
-  }
-}
-
-export async function approveStoredImage(req: Request, res: Response) {
-  try {
-    const oldPath = `${appRoot}/images/${req.params.name}.jpg`;
-    const newPath = `${appRoot}/approved/${req.params.name}.jpg`;
-    fs.rename(oldPath, newPath, function (err) {
-      if (err) throw err;
-      res.status(200).json({ success: true });
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "ok",
-      data: { success: false, error: error.toString() },
-    });
-  }
-}
-
-export async function deleteStoredImage(req: Request, res: Response) {
-  try {
-    const path = `${appRoot}/images/${req.params.name}.jpg`;
-    fs.unlink(path, function (err) {
-      if (err) throw err;
-      res.status(200).json({ success: true });
-    });
   } catch (error) {
     res.status(500).json({
       status: "ok",
