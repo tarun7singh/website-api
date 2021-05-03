@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { prepareImage, prepareImages } from "../service/image.service";
 import appRoot from "app-root-path";
 import fs from "fs";
+import axios from "axios";
 
 export async function image(req: Request, res: Response) {
   try {
@@ -31,16 +32,27 @@ export async function slackHandler(req: Request, res: Response) {
   try {
     const payload = JSON.parse(req.body.payload);
     const [action, name] = payload.actions[0].value.split("-");
+    const { response_url } = payload;
     if (action === "approve") {
       const oldPath = `${appRoot}/images/${name}.jpg`;
       const newPath = `${appRoot}/approved/${name}.jpg`;
       fs.rename(oldPath, newPath, function (err) {
         if (err) throw err;
+        axios.post(response_url, {
+          replace_original: "true",
+          text:
+            `Thanks for your response, approved ${name}.jpg`,
+        });
       });
     } else {
       const path = `${appRoot}/images/${name}.jpg`;
       fs.unlink(path, function (err) {
         if (err) throw err;
+        axios.post(response_url, {
+          replace_original: "true",
+          text:
+            `Thanks for your response, denied ${name}.jpg`,
+        });
       });
     }
     res.status(200).json({ success: true });
