@@ -6,7 +6,7 @@ export const publishMessage = async (name: string) => {
     const client = new WebClient(process.env.SLACK_BOT_TOKEN, {
       logLevel: LogLevel.DEBUG,
     });
-    const result = await client.chat.postMessage({
+    await client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
       channel: "C5SJQ3V55",
       text: "test",
@@ -22,7 +22,7 @@ export const publishMessage = async (name: string) => {
           type: "image",
           title: {
             type: "plain_text",
-            text: "image1",
+            text: name,
             emoji: true,
           },
           image_url: `https://api.tarunsingh.dev/image-generator/image/${name}`,
@@ -55,7 +55,6 @@ export const publishMessage = async (name: string) => {
         },
       ]
     });
-    console.log(result);
   } catch (error) {
     console.error(error);
   }
