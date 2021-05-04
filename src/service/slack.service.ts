@@ -39,7 +39,7 @@ export const publishMessage = async (name: string) => {
                 text: "Approve",
               },
               style: "primary",
-              value: `approve-${name}`,
+              value: `approve - ${name}`,
             },
             {
               type: "button",
@@ -49,7 +49,7 @@ export const publishMessage = async (name: string) => {
                 text: "Deny",
               },
               style: "danger",
-              value: `deny-${name}`,
+              value: `deny - ${name}`,
             },
           ],
         },

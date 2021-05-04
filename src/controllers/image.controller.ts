@@ -31,7 +31,7 @@ export async function prepare(req: Request, res: Response) {
 export async function slackHandler(req: Request, res: Response) {
   try {
     const payload = JSON.parse(req.body.payload);
-    const [action, name] = payload.actions[0].value.split("-");
+    const [action, name] = payload.actions[0].value.split(" - ");
     const { response_url } = payload;
     if (action === "approve") {
       const oldPath = `${appRoot}/images/${name}.jpg`;
