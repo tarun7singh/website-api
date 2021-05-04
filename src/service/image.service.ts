@@ -6,8 +6,9 @@ import { JSDOM } from "jsdom";
 import { sentenceCase } from "sentence-case";
 import appRoot from 'app-root-path';
 import {publishMessage} from "./slack.service";
-const dir = appRoot;
+import {nanoid} from "nanoid";
 
+const dir = appRoot;
 const fetchBg = async (name: string) => {
   // url = "https://source.unsplash.com/collection/" + collection_id + "/1080x1080"
   const url = "https://source.unsplash.com/1080x1080/?nature,mountain";
@@ -162,16 +163,18 @@ export const prepareImage = async (name: string) => {
 };
 
 export const prepareImages = async (count: number) => {
-  const queue = [];
+  const imageQueue = [];
+  const ids = [];
   for (let i = 0 ; i < count; i++) {
-    queue.push(prepareImage(i.toString()));
+    ids.push(nanoid(12));
+    imageQueue.push(prepareImage(ids[i]));
   }
-  const queueResult = await Promise.all(queue);
+  const imageQueueResult = await Promise.all(imageQueue);
   
   const messageQueue = [];
   for (let i = 0 ; i < count; i++) {
-    messageQueue.push(publishMessage(i.toString()));
+    messageQueue.push(publishMessage(ids[i]));
   }
   const messageQueueResult = await Promise.all(messageQueue);
-  return {queueResult, messageQueueResult};
+  return {imageQueueResult, messageQueueResult};
 };
