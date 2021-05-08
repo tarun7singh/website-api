@@ -7,7 +7,6 @@ export async function pnp(req: Request, res: Response) {
     "#post_master > div:nth-child(1) > div.post_content > ul:nth-child(4) > li"
     const url = "https://moving2canada.com/pnp-canada-live-tracker/";
     let text = await scraper(url, selector);
-    console.log(text);
     text = text.filter((i: any) => {
       return i !== "";
     });

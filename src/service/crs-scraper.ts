@@ -8,8 +8,10 @@ export default async function scraper(url: string, selector: string) {
     await page.setViewport({ width: 1366, height: 768 });
     await page.goto(url);
     await page.waitForSelector(selector);
-    let select = await page.$(selector);
-    return await page.evaluate((e) => e.textContent, select);
+    let selects = await page.$$eval(selector, (e) =>
+    e.map((a) => a.textContent)
+    );
+    return selects;
   } catch (error) {
     throw new Error("Puppeteer Error Occurred");
   } finally {
