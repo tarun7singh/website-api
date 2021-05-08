@@ -15,11 +15,11 @@ app.use(
 
 const port = process.env.PORT || 5000;
 import * as imageController from "./src/controllers/image.controller";
-// import * as pnpController from "./controllers/pnp.controller";
-// import * as crsController from "./controllers/crs.controller";
+import * as pnpController from "./src/controllers/pnp.controller";
+import * as crsController from "./src/controllers/crs.controller";
 
-// app.get("/pnp-service", pnpController.pnp);
-// app.get("/crs-service", crsController.crs);
+app.get("/crs-service", crsController.crs);
+app.get("/pnp-service", pnpController.pnp);
 app.get("/", (req, res) => res.status(200).json({ status: "ok" }));
 
 app.post("/image-generator", imageController.slackHandler);
