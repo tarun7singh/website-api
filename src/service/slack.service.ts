@@ -9,7 +9,7 @@ export const publishMessage = async (name: string) => {
     await client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
       channel: "C5SJQ3V55",
-      text: "test",
+      text: "The Inspirational Monk : New image",
       blocks: [
         {
           type: "section",

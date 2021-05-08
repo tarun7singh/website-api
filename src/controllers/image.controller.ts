@@ -41,7 +41,7 @@ export async function slackHandler(req: Request, res: Response) {
         axios.post(response_url, {
           replace_original: "true",
           text:
-            `Thanks for your response, approved ${name}.jpg`,
+            `Thanks for your response, Approved - ${name}.jpg`,
         });
       });
     } else {
@@ -51,7 +51,7 @@ export async function slackHandler(req: Request, res: Response) {
         axios.post(response_url, {
           replace_original: "true",
           text:
-            `Thanks for your response, denied ${name}.jpg`,
+            `Thanks for your response, Deleted - ${name}.jpg`,
         });
       });
     }
