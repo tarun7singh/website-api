@@ -7,14 +7,8 @@ export async function crs(req: Request, res: Response) {
     const url =
       "https://www.canada.ca/en/immigration-refugees-citizenship/corporate/mandate/policies-operational-instructions-agreements/ministerial-instructions/express-entry-rounds.html";
     let text = await scraper(url, selector);
-    // let [text, last] = await Promise.all([textReq, lastReq]);
-    // text = text.split("\n");
-    // text = text.filter((i: any) => {
-    //   i = i.trim();
-    //   return i === "" ? false : true;
-    // });
     let result = [];
-    for (let i = 0; i <= 55; i = i + 5) {
+    for (let i = 0; i <= 77; i = i + 7) {
       result.push({
         number: text[i],
         date: text[i + 1],
