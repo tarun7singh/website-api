@@ -1,45 +1,45 @@
 name: Build And Deploy
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.head_ref }}
-        fetch-depth: 0
-    - name: Prettify code
-      uses: creyD/prettier_action@v3.3
-      with:
-        prettier_options: --write "{,!(node_modules)/**/}*.ts"
-        only_changed: True
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Copy file via scp
-      uses: appleboy/scp-action@master
-      env:
-        HOST: ${{ secrets.ORACLE_HOST }}
-        USERNAME: ${{ secrets.ORACLE_USERNAME }}
-        PORT: ${{ secrets.ORACLE_VM_PORT }}
-        KEY: ${{ secrets.ORACLE_VM_SSH_KEY }}
-      with:
-        source: "."
-        target: "/home/ubuntu/api"
-    - name: Executing remote command
-      uses: appleboy/ssh-action@master
-      with:
-        HOST: ${{ secrets.ORACLE_HOST }}
-        USERNAME: ${{ secrets.ORACLE_USERNAME }}
-        PORT: ${{ secrets.ORACLE_VM_PORT }}
-        KEY: ${{ secrets.ORACLE_VM_SSH_KEY }}
-        script_stop: true
-        script: |
-          cd /home/ubuntu/api
-          npm ci
-          npm run build
-          pm2 reload api --update-env
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Prettify code
+        uses: creyD/prettier_action@v3.3
+        with:
+          prettier_options: '--write "{,!(node_modules)/**/}*.ts"'
+          only_changed: True
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Copy file via scp
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.ORACLE_HOST }}
+          USERNAME: ${{ secrets.ORACLE_USERNAME }}
+          PORT: ${{ secrets.ORACLE_VM_PORT }}
+          KEY: ${{ secrets.ORACLE_VM_SSH_KEY }}
+        with:
+          source: "."
+          target: "/home/ubuntu/api"
+      - name: Executing remote command
+        uses: appleboy/ssh-action@master
+        with:
+          HOST: ${{ secrets.ORACLE_HOST }}
+          USERNAME: ${{ secrets.ORACLE_USERNAME }}
+          PORT: ${{ secrets.ORACLE_VM_PORT }}
+          KEY: ${{ secrets.ORACLE_VM_SSH_KEY }}
+          script_stop: true
+          script: |
+            cd /home/ubuntu/api
+            npm ci
+            npm run build
+            pm2 reload api --update-env
