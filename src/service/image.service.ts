@@ -4,9 +4,9 @@ import Jimp from "jimp";
 import wrap from "word-wrap";
 import { JSDOM } from "jsdom";
 import { sentenceCase } from "sentence-case";
-import appRoot from 'app-root-path';
-import {publishMessage} from "./slack.service";
-import {nanoid} from "nanoid";
+import appRoot from "app-root-path";
+import { publishMessage } from "./slack.service";
+import { nanoid } from "nanoid";
 
 const dir = appRoot;
 const fetchBg = async (name: string) => {
@@ -62,8 +62,9 @@ const getQuote = async (): Promise<{ quote: string; author: string }> => {
         allQuotes[j].querySelector("a")?.getAttribute("href");
       const resp = await axios({ method: "get", url: link });
       const dom = new JSDOM(resp.data);
-      const quote = dom.window.document.querySelector(".quotation")
-        ?.parentElement?.children[1].textContent;
+      const quote =
+        dom.window.document.querySelector(".quotation")?.parentElement
+          ?.children[1].textContent;
       const author = dom.window.document
         .querySelector(".quotation")
         ?.parentElement?.children[2].innerHTML.split("<small>")[0]
@@ -135,7 +136,9 @@ const writeQuote = async (
     y += 100;
   }
   y += 50;
-  const authorFont = await Jimp.loadFont(`${dir}/fonts/pacifico/pacifico.ttf.fnt`);
+  const authorFont = await Jimp.loadFont(
+    `${dir}/fonts/pacifico/pacifico.ttf.fnt`
+  );
   const image = await Jimp.read(`${dir}/images/${fileName}.jpg`);
   await image
     .print(
@@ -158,23 +161,26 @@ const formatQuote = (quote: string) => {
 
 export const prepareImage = async (name: string) => {
   await fetchBg(name);
-  const [filter, { quote, author }] = await Promise.all([filterImage(name), getQuote()])
+  const [filter, { quote, author }] = await Promise.all([
+    filterImage(name),
+    getQuote(),
+  ]);
   await writeQuote(name, { quote, author });
 };
 
 export const prepareImages = async (count: number) => {
   const imageQueue = [];
   const ids = [];
-  for (let i = 0 ; i < count; i++) {
+  for (let i = 0; i < count; i++) {
     ids.push(nanoid(12));
     imageQueue.push(prepareImage(ids[i]));
   }
   const imageQueueResult = await Promise.all(imageQueue);
-  
+
   const messageQueue = [];
-  for (let i = 0 ; i < count; i++) {
+  for (let i = 0; i < count; i++) {
     messageQueue.push(publishMessage(ids[i]));
   }
   const messageQueueResult = await Promise.all(messageQueue);
-  return {imageQueueResult, messageQueueResult};
+  return { imageQueueResult, messageQueueResult };
 };

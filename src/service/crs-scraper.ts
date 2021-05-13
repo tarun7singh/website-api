@@ -9,7 +9,7 @@ export default async function scraper(url: string, selector: string) {
     await page.goto(url);
     await page.waitForSelector(selector);
     let selects = await page.$$eval(selector, (e) =>
-    e.map((a) => a.textContent)
+      e.map((a) => a.textContent)
     );
     return selects;
   } catch (error) {
