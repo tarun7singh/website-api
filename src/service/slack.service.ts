@@ -16,7 +16,7 @@ export const publishMessage = async (name: string) => {
           text: {
             type: "mrkdwn",
             text: "Please check these images for posting.",
-          },    
+          },
         },
         {
           type: "image",
@@ -53,9 +53,9 @@ export const publishMessage = async (name: string) => {
             },
           ],
         },
-      ]
+      ],
     });
   } catch (error) {
     console.error(error);
   }
-}
+};

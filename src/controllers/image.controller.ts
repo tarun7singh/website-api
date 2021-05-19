@@ -40,8 +40,7 @@ export async function slackHandler(req: Request, res: Response) {
         if (err) throw err;
         axios.post(response_url, {
           replace_original: "true",
-          text:
-            `Thanks for your response, Approved - ${name}.jpg`,
+          text: `Thanks for your response, Approved - ${name}.jpg`,
         });
       });
     } else {
@@ -50,8 +49,7 @@ export async function slackHandler(req: Request, res: Response) {
         if (err) throw err;
         axios.post(response_url, {
           replace_original: "true",
-          text:
-            `Thanks for your response, Deleted - ${name}.jpg`,
+          text: `Thanks for your response, Deleted - ${name}.jpg`,
         });
       });
     }

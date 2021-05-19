@@ -4,7 +4,7 @@ import scraper from "../service/pnp-scraper";
 export async function pnp(req: Request, res: Response) {
   try {
     const selector =
-    "#post_master > div:nth-child(1) > div.post_content > ul:nth-child(4) > li"
+      "#post_master > div:nth-child(1) > div.post_content > ul:nth-child(4) > li";
     const url = "https://moving2canada.com/pnp-canada-live-tracker/";
     let text = await scraper(url, selector);
     text = text.filter((i: any) => {
