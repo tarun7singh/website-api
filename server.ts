@@ -17,10 +17,12 @@ const port = process.env.PORT || 5000;
 import * as imageController from "./src/controllers/image.controller";
 import * as pnpController from "./src/controllers/pnp.controller";
 import * as crsController from "./src/controllers/crs.controller";
+import * as monitoringController from "./src/controllers/monitoring.controller";
 
 app.get("/crs-service", crsController.crs);
 app.get("/pnp-service", pnpController.pnp);
-app.get("/", (req, res) => res.status(200).json({ status: "ok" }));
+
+app.get("/monitoring", monitoringController.check);
 
 app.post("/image-generator", imageController.slackHandler);
 
@@ -28,6 +30,8 @@ app.get("/image-generator/get-one", imageController.image);
 app.get("/image-generator/image/:name", imageController.getStoredImage);
 
 app.post("/image-generator/prepare", imageController.prepare);
+
+app.get("/", (req, res) => res.status(200).json({ status: "ok" }));
 
 app.listen(5000, () =>
   console.log(`Server started on : http://localhost:${port}`)
