@@ -48,6 +48,7 @@ export async function puppy(req: Request, res: Response) {
       const value = await page.evaluate((el) => el.textContent, element);
       data.push(value.trim());
     }
+    await browser.close();
     res.status(200).json({ status: "ok", data: { success: true, data } });
   } catch (error) {
     res.status(500).json({
