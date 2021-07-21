@@ -16,11 +16,13 @@ app.use(
 const port = process.env.PORT || 5000;
 import * as imageController from "./src/controllers/image.controller";
 import * as pnpController from "./src/controllers/pnp.controller";
+import * as puppyController from "./src/controllers/puppy.controller";
 import * as crsController from "./src/controllers/crs.controller";
 import * as monitoringController from "./src/controllers/monitoring.controller";
 
 app.get("/crs-service", crsController.crs);
 app.get("/pnp-service", pnpController.pnp);
+app.get("/puppy", puppyController.puppy);
 
 app.get("/monitoring", monitoringController.check);
 
