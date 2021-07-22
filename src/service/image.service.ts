@@ -10,12 +10,7 @@ import { nanoid } from "nanoid";
 
 const dir = appRoot;
 const fetchBg = async (name: string) => {
-  // url = "https://source.unsplash.com/collection/" + collection_id + "/1080x1080"
   const url = "https://source.unsplash.com/1080x1080/?nature,mountain";
-  // url = "https://source.unsplash.com/1080x1080/daily?featured"
-  // url = "https://source.unsplash.com/collection/881815/1080x1080"
-  // url = "https://source.unsplash.com/collection/482366/1080x1080"
-  // url = "https://images.unsplash.com/photo-1433086994863-5f3136c18a58?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&h=1080&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=8a754b293c59d35bf4309cd87d8fc601"
   const writer = fs.createWriteStream(`${dir}/images/${name}.jpg`);
   const resp = await axios({
     method: "get",
