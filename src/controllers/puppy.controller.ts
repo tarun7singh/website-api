@@ -50,7 +50,7 @@ export async function puppy(req: Request, res: Response) {
     }
     await browser.close();
     res.status(200).json({ status: "ok", data: { success: true, data } });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       status: "ok",
       data: { success: false, error: error.toString() },

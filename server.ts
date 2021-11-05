@@ -12,7 +12,6 @@ app.use(
     extended: false,
   })
 );
-
 const port = process.env.PORT || 5000;
 import * as imageController from "./src/controllers/image.controller";
 import * as pnpController from "./src/controllers/pnp.controller";
@@ -35,7 +34,7 @@ app.all("/image-generator/prepare", imageController.prepare);
 
 app.get("/", (req, res) => res.status(200).json({ status: "ok" }));
 
-app.listen(5000, () =>
+app.listen(port, () =>
   console.log(`Server started on : http://localhost:${port}`)
 );
 process.on("SIGINT", () => {

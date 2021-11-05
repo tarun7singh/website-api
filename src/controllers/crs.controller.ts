@@ -18,7 +18,7 @@ export async function crs(req: Request, res: Response) {
       });
     }
     res.status(200).json({ status: "ok", data: result });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       status: "ok",
       data: { success: false, error: error.toString() },

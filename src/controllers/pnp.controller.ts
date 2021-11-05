@@ -11,7 +11,7 @@ export async function pnp(req: Request, res: Response) {
       return i !== "";
     });
     res.status(200).json({ status: "ok", data: text });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       status: "ok",
       data: { success: false, error: error.toString() },

@@ -8,7 +8,7 @@ export async function image(req: Request, res: Response) {
   try {
     await prepareImage("main");
     res.sendFile("main.jpg", { root: `${appRoot}/images` });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       status: "ok",
       data: { success: false, error: error.toString() },
@@ -20,7 +20,7 @@ export async function prepare(req: Request, res: Response) {
   try {
     await prepareImages(5);
     res.status(200).json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       status: "ok",
       data: { success: false, error: error.toString() },
@@ -54,7 +54,7 @@ export async function slackHandler(req: Request, res: Response) {
       });
     }
     res.status(200).json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       status: "ok",
       data: { success: false, error: error.toString() },
@@ -65,7 +65,7 @@ export async function slackHandler(req: Request, res: Response) {
 export async function getStoredImage(req: Request, res: Response) {
   try {
     res.sendFile(`${req.params.name}.jpg`, { root: `${appRoot}/images` });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       status: "ok",
       data: { success: false, error: error.toString() },

@@ -16,7 +16,7 @@ export async function check(req: Request, res: Response) {
     res
       .status(200)
       .json({ status: "ok", data: { responseTime: pingTime, ssl } });
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
     res.status(500).json({
       status: "ok",
