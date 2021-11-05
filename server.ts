@@ -26,12 +26,12 @@ app.get("/puppy", puppyController.puppy);
 
 app.get("/monitoring", monitoringController.check);
 
-app.post("/image-generator", imageController.slackHandler);
+app.all("/image-generator", imageController.slackHandler);
 
 app.get("/image-generator/get-one", imageController.image);
 app.get("/image-generator/image/:name", imageController.getStoredImage);
 
-app.post("/image-generator/prepare", imageController.prepare);
+app.all("/image-generator/prepare", imageController.prepare);
 
 app.get("/", (req, res) => res.status(200).json({ status: "ok" }));
 
